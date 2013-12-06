@@ -1,0 +1,13 @@
+{
+  "name": "xneo",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {    	
+	"simple-basex":"*",		
+	"async": "*",
+	"neo4j":"*"
+  }
+}
