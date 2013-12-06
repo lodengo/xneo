@@ -1,18 +1,21 @@
 <fees>
 	<整体工程>
 		<fee>
+
 			<feeName>单项工程工程费合计</feeName>
-			<feeExpr>{f:nm($c/cost[costType='单项工程'], '工程总造价')}</feeExpr>
+			<feeExpr>sum(ccf(单项工程,工程总造价))</feeExpr>
 			<feeResult>0</feeResult>
 		</fee>
 		<fee>
+
 			<feeName>整体工程费用合计</feeName>
 			<feeExpr>0</feeExpr>
 			<feeResult>0</feeResult>
 		</fee>
 		<fee>
+
 			<feeName>工程总造价</feeName>
-			<feeExpr>[单项工程工程费合计]+[整体工程费用合计]</feeExpr>
+			<feeExpr>cf(单项工程费用合计)+cf(整体工程费用合计)</feeExpr>
 			<feeResult>0</feeResult>
 		</fee>
 	</整体工程>
@@ -236,11 +239,28 @@
 			<feeResult>0</feeResult>
 		</fee>
 	</定额>
-	<工料机>
+	<人工>
 		<fee>
+
 			<feeName>直接费</feeName>
-			<feeExpr>c(price)*c(content)</feeExpr>
+			<feeExpr>c(单价)*c(含量)</feeExpr>
 			<feeResult>0</feeResult>
 		</fee>
-	</工料机>
+	</人工>
+	<材料>
+		<fee>
+
+			<feeName>直接费</feeName>
+			<feeExpr>c(单价)*c(含量)</feeExpr>
+			<feeResult>0</feeResult>
+		</fee>
+	</材料>
+	<机械>
+		<fee>
+
+			<feeName>直接费</feeName>
+			<feeExpr>c(单价)*c(含量)</feeExpr>
+			<feeResult>0</feeResult>
+		</fee>
+	</机械>
 </fees>

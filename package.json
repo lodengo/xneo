@@ -8,6 +8,7 @@
   "dependencies": {    	
 	"simple-basex":"*",		
 	"async": "*",
-	"neo4j":"*"
+	"neo4j":"*",
+	"xml2json":"*"
   }
 }
