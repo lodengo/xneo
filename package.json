@@ -9,6 +9,7 @@
 	"simple-basex":"*",		
 	"async": "*",
 	"neo4j":"*",
-	"xml2json":"*"
+	"xml2json":"*",
+	"mathjs": "*"	
   }
 }

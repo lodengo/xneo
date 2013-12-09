@@ -10,13 +10,22 @@
 				minOccurs="1">
 			</element>
 			<any></any>
-			<element name="fee" type="tns:fee" minOccurs="1" maxOccurs="unbounded">
-			</element>			
+			<element name="refFrom" type="string" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+			<element name="fees" type="tns:fees" minOccurs="1" maxOccurs="1">
+			</element>		
 			<element name="cost" type="tns:cost" maxOccurs="unbounded"
 				minOccurs="0"></element>
 		</sequence>
 	</complexType>
 	
+	<complexType name="fees">
+		<sequence>
+			<element name="fee" type="tns:fee" maxOccurs="unbounded"
+				minOccurs="1"></element>
+		</sequence>
+	</complexType>
 
 	<complexType name="fee">
 		<sequence>
@@ -30,6 +39,21 @@
 			</element>
 			<element name="feeResult" type="string" maxOccurs="1"
 				minOccurs="1">
+			</element>
+			<element name="file" type="string" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="costId" type="string" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="costType" type="string" maxOccurs="1"
+				minOccurs="1">
+			</element>
+			<element name="refFrom" type="string" maxOccurs="unbounded"
+				minOccurs="0">
+			</element>
+			<element name="refTo" type="string" maxOccurs="unbounded"
+				minOccurs="0">
 			</element>
 			<any></any>
 			<element name="fee" type="tns:fee" maxOccurs="unbounded"

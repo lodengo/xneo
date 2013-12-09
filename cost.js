@@ -19,20 +19,29 @@ Object.defineProperty(Cost.prototype, 'file', {
 	}
 });
 
+Object.defineProperty(Cost.prototype, 'type', {
+	get : function() {
+		return this._node.type;
+	}
+});
+
 // fees need rebuild ref and calc on create: fees of cost && parent fees with cc
 // && sibling fees with cs
 Cost.prototype.feesToFlushOnCreate = function(callback) {
 	var file = this.file;
 	var id = this.id;
 	
-	db.feesToFlushOnCostCreate(file, id, callback);
+	db.feesToFlushOnCostCreate(file, id, function(err, fees){
+		async.map(fees.fee, function(fee, cb){cb(null, new Fee(fee));}, callback);
+	});
 }
 
 Cost.create = function(data, file, parentId, callback) {
 	db.insertCost(data, file, parentId, function(err, data) {
 		var node = {
 			id : data.id,
-			file : data.file || file
+			file : data.file || file,
+			type: data.type
 		};
 		callback(err, new Cost(node));
 	});

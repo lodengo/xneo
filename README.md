@@ -1,3 +1,4 @@
 xneo
 ====
-![xsd](xsd.png)
+![cost](cost.png)
+![fees](fees.png)
