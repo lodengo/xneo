@@ -63,6 +63,12 @@ Array.prototype.diff = function() {
 	return a.unique();
 };
 
+Array.prototype.random = function() {
+	var len = this.length;
+	var idx = Math.floor(Math.random() * len);
+	return this[idx];
+};
+
 //费用表达式引用关系
 exports.refReg = new RegExp([ 'f', 'c', 'cf', 'cc', 'ccf', 'cs', 'csf', 'cas' ]
 		.join('\\([^\\)]*\\)|')

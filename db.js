@@ -44,15 +44,14 @@ db._exec = function(func, args, callback) {
 	}
 
 	query = query + params + ")";
-	console.dir(query);
-
+	
 	_db.query(query, function(err, result) {
 		if (err)
 			console.dir(err);	
 		var result = util.xml2json(result); 
 		var key = Object.keys(result)[0];
 		var data = result[key];
-		console.log(data);
+		//console.dir(query);		console.log(data);
 		callback && callback(err, data);
 	});
 }
@@ -99,59 +98,53 @@ db.getRefToIdsOf = function(file, ids, callback){
 	this._exec('getRefToIdsOf', [file, ids], callback);
 }
 ////////////////////////////////////////////////////////////
+function _cb(err, data, getId, callback){
+	var result = data.result ? [].concat(data.result) : [];
+	var values = result.map(function(e) {
+		return getId? e.id : e.value;
+	});		
+	callback(err, values);
+};
+
 db._C = function(file, costId, prop, getId, callback){
 	this._exec('_C', [file, costId, prop], function(err, data){
-		var values = getId? data.id : data.value;
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 db._CF = function(file, costId, feeName, getId, callback) {
 	this._exec('_CF', [file, costId, feeName], function(err, data){	
-		var values = getId? data.id : data.value;		
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 
 db._CC = function(file, costId, type, prop, getId, callback) {
 	this._exec('_CC', [file, costId, type, prop], function(err, data){
-		var values = getId? data.id : data.value;
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 db._CCF = function(file, costId, type, feeName, getId, callback) {
 	this._exec('_CCF', [file, costId, type, feeName], function(err, data){
-		var values = getId? data.id : data.value; 		
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 db._CS = function(file, costId, prop, getId, callback) {
 	this._exec('_CS', [file, costId, prop], function(err, data){
-		var values = getId? data.id : data.value;
-		values = typeof values == 'object'? [] : [].concat(values);		
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 db._CSF = function(file, costId, feeName, getId, callback) {
 	this._exec('_CSF', [file, costId, feeName], function(err, data){
-		var values = getId? data.id : data.value;
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }
 
 db._CAS = function(file, costId, prop, getId, callback) {
 	this._exec('_CAS', [file, costId, prop], function(err, data){
-		var values = getId? data.id : data.value;
-		values = typeof values == 'object'? [] : [].concat(values);
-		callback(err, values);
+		_cb(err, data, getId, callback);
 	});
 }

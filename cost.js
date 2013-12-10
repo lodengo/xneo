@@ -32,7 +32,11 @@ Cost.prototype.feesToFlushOnCreate = function(callback) {
 	var id = this.id;
 	
 	db.feesToFlushOnCostCreate(file, id, function(err, fees){
-		async.map(fees.fee, function(fee, cb){cb(null, new Fee(fee));}, callback);
+		fees = [].concat(fees.fee);
+		fees = fees.map(function(f){
+			return new Fee(f);
+		}); 
+		callback(err, fees);
 	});
 }
 

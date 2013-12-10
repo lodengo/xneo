@@ -39,6 +39,7 @@ Tester.prototype.createDXgc = function(callback) {
 
 Tester.prototype.createDwgc = function(callback) {
 	var me = this;
+	console.log(me);
 	var dwgc = {
 		type : '单位工程'
 	};
@@ -167,6 +168,18 @@ function run(callback) {
 	 console.log('done');
 	 //console.log(util.stats.info());
  });
+
+//var types = [ "人工", "材料", "机械" ];
+//var glj = {
+//	'type' : types[Math.floor(Math.random() * 10) % 3],
+//	'单价' : Math.random() * 100,
+//	'含量' : Math.random()
+//};	
+//Api.createCost(glj, null, null, function(err, cost) {
+//	console.log(cost);
+//});
+
+
 
 
 

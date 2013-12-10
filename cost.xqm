@@ -104,37 +104,62 @@ declare function cost:getFee($file, $id){
 };
 
 declare function cost:_C($file, $costId, $prop){
-  let $cost := doc($file)//cost[id=$costId and $prop]
-  return <result><id>{$costId}</id><value>{$cost/node()[name=$prop]/text()}</value></result>
+   <results>{
+  let $cost := doc($file)//cost[id=$costId]
+  return <result><id>{$costId}</id><value>{$cost/node()[name()=$prop]/text()}</value></result>
+   }</results>
 };
 
 declare function cost:_CF($file, $costId, $feeName){
+   <results>{
   let $fee := doc($file)//cost[id=$costId]/fees//fee[feeName=$feeName]
   return <result><id>{$fee/id/text()}</id><value>{$fee/feeResult/text()}</value></result>
+   }</results>
 };
 
 declare function cost:_CC($file, $costId, $type, $prop){
-  let $cost := doc($file)//cost[id=$costId]/cost[type=$type and $prop]
-  return <result><id>{$cost/id/text()}</id><value>{$cost/node()[name=$prop]/text()}</value></result>
+  <results>{
+  let $costs := doc($file)//cost[id=$costId]/cost[type=$type]
+  for $cost in $costs return
+  <result><id>{$cost/id/text()}</id><value>{$cost/node()[name=$prop]/text()}</value></result>
+  }</results>
+ 
 };
 
 declare function cost:_CCF($file, $costId, $type, $feeName){
-  let $fee := doc($file)//cost[id=$costId]/cost[type=$type]/fees//fee[feeName=$feeName]
-  return <result><id>{$fee/id/text()}</id><value>{$fee/feeResult/text()}</value></result>
+  <results>{
+  let $fees := doc($file)//cost[id=$costId]/cost[type=$type]/fees//fee[feeName=$feeName]
+  for $fee in $fees return
+   <result><id>{$fee/id/text()}</id><value>{$fee/feeResult/text()}</value></result>
+   }</results>
 };
 
 declare function cost:_CS($file, $costId, $prop){
-  let $cost := doc($file)//cost[id=$costId]/../cost[id != $costId and $prop]
-  return <result><id>{$cost/id/text()}</id><value>{$cost/node()[name=$prop]/text()}</value></result>
+  <results>{
+  let $costs := doc($file)//cost[id=$costId]/../cost[id != $costId]
+  for $cost in $costs return
+   <result><id>{$cost/id/text()}</id><value>{$cost/node()[name()=$prop]/text()}</value></result>
+  }</results>
 };
 
 declare function cost:_CSF($file, $costId, $feeName){
-  let $fee := doc($file)//cost[id=$costId]/../cost/fees//fee[feeName=$feeName]
-  return <result><id>{$fee/id/text()}</id><value>{$fee/feeResult/text()}</value></result>
+  <results>{
+  let $fees := doc($file)//cost[id=$costId]/../cost/fees//fee[feeName=$feeName]
+  for $fee in $fees return
+   <result><id>{$fee/id/text()}</id><value>{$fee/feeResult/text()}</value></result>
+  }</results>
+};
+
+declare function cost:self_parent($cost, $prop){
+  let $node := $cost/node()[name()=$prop] return
+  if($node) then  <result><id>{$cost/id/text()}</id><value>{$node/text()}</value></result>
+  else cost:self_parent($cost/.., $prop)
 };
 
 declare function cost:_CAS($file, $costId, $prop){
-  let $cost := doc($file)//cost[id=$costId]/ancestor-or-self[$prop]
-  return <result><id>{$cost/id/text()}</id><value>{$cost/node()[name=$prop]/text()}</value></result>
+  <results>{
+  let $cost := doc($file)//cost[id=$costId]
+  return cost:self_parent($cost, $prop)
+  }</results>
 };
 

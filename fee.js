@@ -95,7 +95,7 @@ Fee.prototype.buildRef = function(callback){
 	var me = this;	
 	me.refedToIds(function(err, refedToIds){ 
 		me.refToIdsByExpr(function(err, refToIdsByExpr){	
-			console.log(['ref', me.feeName, refedToIds, refToIdsByExpr]);			
+			//console.log(['ref', me.feeName, refedToIds, refToIdsByExpr]);			
 			me.removeRefsTo(refedToIds.diff(refToIdsByExpr), function(err){
 				me.createRefTo(refToIdsByExpr.diff(refedToIds), callback);
 			});

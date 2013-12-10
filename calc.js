@@ -53,7 +53,7 @@ Calc._adj = function(file, ids, adj, callback){
 	var me = this;
 	db.getRefToIdsOf(file, util.json2xml({ids:{id:ids}}), function(err, fromtos){
 		var froms = [];
-		fromtos = fromtos.fromto || [];
+		fromtos = fromtos.fromto ? [].concat(fromtos.fromto) : [];
 		fromtos.forEach(function(fromto){
 			var id = fromto.id;
 			adj[id] = adj[id] ? adj[id].concat(fromto.to.refTo || []) : (fromto.to.refTo || []);
