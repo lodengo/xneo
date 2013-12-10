@@ -78,7 +78,7 @@
 		</fee>
 		<fee>
 			<feeName>工程总造价</feeName>
-			<feeExpr>[单位工程工程费合计]+[单项工程费用合计]</feeExpr>
+			<feeExpr>cf(单位工程工程费合计)+cf(单项工程费用合计)</feeExpr>
 			<feeResult>0</feeResult>
 		</fee>
 	</单项工程>

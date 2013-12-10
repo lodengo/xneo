@@ -80,27 +80,19 @@ declare updating function cost:removeRefsTo($file, $fromFeeId, $toIds){
   )  
 };
 
-declare function cost:getRefedToIdsOfFee($file, $fromFeeId){
-   <ids>{doc($file)//fee[id=$fromFeeId]/refTo}</ids>
-};
-
-declare function cost:getRefToIdsOf($file, $ids){
-  <result>{
-  for $id in $ids/id/text() return (
-    let $node := doc($file)//id[text()=$id]/..
-    let $refTo := $node/refTo
-    let $refFrom := $node/refFrom
-    return <fromto><from>{$refFrom}</from><id>{$id}</id><to>{$refTo}</to></fromto>
-  )
-  }</result>
-};
-
 declare updating function cost:setFeeResult($file, $feeId, $result){
   replace value of node doc($file)//fee[id=$feeId]/feeResult with $result
 };
 
 declare function cost:getFee($file, $id){
   doc($file)//fee[id=$id]
+};
+
+declare function cost:getFees($file, $ids){
+  <fees>{
+  for $id in $ids/id/text() return
+  doc($file)//fee[id=$id]
+  }</fees>
 };
 
 declare function cost:_C($file, $costId, $prop){

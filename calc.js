@@ -36,7 +36,7 @@ Calc.prototype.calc = function(callback){
 		var feeResult = 0; 
 		try{
 			feeResult = math.eval(feeExpr); 
-			console.log(me._fee.costType+'.'+me._fee.feeName+'='+feeResult);
+			console.log(me._fee.costType+'.'+me._fee.feeName+'('+me._fee.feeExpr+')='+feeResult);
 		}
 		catch(e){
 			feeResult = 0;			
@@ -51,34 +51,34 @@ Calc.prototype.calc = function(callback){
 
 Calc._adj = function(file, ids, adj, callback){
 	var me = this;
-	db.getRefToIdsOf(file, util.json2xml({ids:{id:ids}}), function(err, fromtos){
-		var froms = [];
-		fromtos = fromtos.fromto ? [].concat(fromtos.fromto) : [];
-		fromtos.forEach(function(fromto){
-			var id = fromto.id;
-			adj[id] = adj[id] ? adj[id].concat(fromto.to.refTo || []) : (fromto.to.refTo || []);
-			froms = froms.concat(fromto.from.refFrom || []);			
+	var froms = [];
+	Fee.gets(file, ids, function(err, fees){
+		fees.forEach(function(fee){
+			var feeId = fee.id;
+			adj[feeId] = adj[feeId] ? adj[feeId].concat(fee.refTo) : fee.refTo;
+			var from = fee.refFrom; 
+			froms = froms.concat(from);
 		});
-		
-		if(!err && froms.length > 0){
-			me._adj(file, util.json2xml({ids:{id:froms.unique()}}), adj, callback);
+		froms = froms.unique();
+		if(froms.length > 0){
+			me._adj(file, froms, adj, callback);	
 		}else{
-			callback(err, adj);
+			callback(null, adj);
 		}
-	});
+	});	
 }
 
 Calc.start = function(file, ids, callback){	
 	var me = this;
-	me._adj(file, ids, [], function(err, adj){		
-		var fees = Object.keys(adj);
-		var uvs = fees.map(function(f){
-			return {u: f, v: fees.intersect(adj[f])};
+	me._adj(file, ids, [], function(err, adj){ 
+		var us = Object.keys(adj);
+		var uvs = us.map(function(u){
+			return {u: u, v: us.intersect(adj[u])};
 		});
-		//console.log(uvs);
+		
 		var toposort = new TopoSort(uvs);
 		fees = toposort.sort();	
-		
+		//console.log(fees.order);
 		if(fees.cycle){
 			callback(null);
 		}else{

@@ -76,16 +76,6 @@ db.removeRefsTo = function(file, fromFeeId, toIds, callback){
 	this._exec('removeRefsTo', [file, fromFeeId, toIds], callback);
 }
 
-db.getRefedToIdsOfFee = function(file, fromFeeId, callback){
-	this._exec('getRefedToIdsOfFee', [file, fromFeeId], function(err,data){
-		if(! data.refTo){
-			callback(err, []);
-		}else{
-			callback(err, [].concat(data.refTo));
-		}			
-	});
-}
-
 db.setFeeResult = function(file, feeId, result, callback){
 	this._exec('setFeeResult', [file, feeId, result], callback);
 }
@@ -94,8 +84,8 @@ db.getFee = function(file, id, callback){
 	this._exec('getFee', [file, id], callback);
 }
 
-db.getRefToIdsOf = function(file, ids, callback){
-	this._exec('getRefToIdsOf', [file, ids], callback);
+db.getFees = function(file, ids, callback){
+	this._exec('getFees', [file, ids], callback);
 }
 ////////////////////////////////////////////////////////////
 function _cb(err, data, getId, callback){

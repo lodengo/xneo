@@ -39,7 +39,7 @@ Tester.prototype.createDXgc = function(callback) {
 
 Tester.prototype.createDwgc = function(callback) {
 	var me = this;
-	console.log(me);
+	
 	var dwgc = {
 		type : '单位工程'
 	};
@@ -133,14 +133,31 @@ function arrPush(arr, e, n) {
 	}
 }
 
+var stats = {
+		totalms:0,
+		steps:0,
+		avgms:0,
+		maxms:0,
+		finish: function(start, action){
+			var me = this;
+			var ms = new Date() - start;
+			me.totalms += ms;
+			me.steps += 1;
+			me.avgms = me.totalms/me.steps;
+			me.maxms = ms > me.maxms ? ms : me.maxms;
+		}
+};
+
 function step(actor, actions, i, callback) {
+	var start = new Date();
 	if (i == actions.length) {
 		callback();
 	} else {
 		var act = actions[i];
 		console.log("step " + i + ": " + act);
-		actor[act](function(err, res) {
-			step(actor, actions, i + 1, callback);
+		actor[act](function(err, res) {	
+			stats.finish(start, act);
+			step(actor, actions, i + 1, callback);			
 		});
 	}
 }
@@ -152,9 +169,9 @@ function run(callback) {
 	arrPush(actions, "createFbfx", 8);
 
 	
-	arrPush(actions, "createQd", 10);
-	arrPush(actions, "createDe", 20);
-	arrPush(actions, "createGlj", 30);
+	arrPush(actions, "createQd", 16);
+	arrPush(actions, "createDe", 32);
+	arrPush(actions, "createGlj", 64);
 	// arrPush(actions, "modGcl", 5);
 	// arrPush(actions, "delNode", 2);
 
@@ -166,18 +183,10 @@ function run(callback) {
 
  run(function() {
 	 console.log('done');
-	 //console.log(util.stats.info());
+	 console.log(stats);
  });
 
-//var types = [ "人工", "材料", "机械" ];
-//var glj = {
-//	'type' : types[Math.floor(Math.random() * 10) % 3],
-//	'单价' : Math.random() * 100,
-//	'含量' : Math.random()
-//};	
-//Api.createCost(glj, null, null, function(err, cost) {
-//	console.log(cost);
-//});
+
 
 
 
