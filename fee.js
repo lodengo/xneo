@@ -66,6 +66,18 @@ Object.defineProperty(Fee.prototype, 'refFrom', {
 	}
 });
 
+Fee.prototype.feesToFlushOnCreate = function(callback) {
+	
+}
+
+Fee.prototype.feesToFlushOnUpdate = function(key, value, callback) {
+	
+}
+
+Fee.prototype.feesToFlushOnDelete = function(callback) {
+	
+}
+
 Fee.get = function(file, id, callback){
 	db.getFee(file, id, function(err,doc){
 		callback(err, new Fee(doc));
@@ -128,4 +140,12 @@ Fee.prototype.buildRef = function(callback){
 			me.createRefTo(refToIdsByExpr.diff(refedToIds), callback);
 		});
 	});	
+}
+
+Fee.prototype.update = function(prop, value, callback){
+	
+}
+
+Fee.prototype.del = function(callback){
+	
 }

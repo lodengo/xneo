@@ -40,6 +40,14 @@ Cost.prototype.feesToFlushOnCreate = function(callback) {
 	});
 }
 
+Cost.prototype.feesToFlushOnUpdate = function(key, value, callback) {
+	
+}
+
+Cost.prototype.feesToFlushOnDelete = function(callback) {
+	
+}
+
 Cost.create = function(data, file, parentId, callback) {
 	db.insertCost(data, file, parentId, function(err, data) {
 		var node = {
@@ -50,3 +58,15 @@ Cost.create = function(data, file, parentId, callback) {
 		callback(err, new Cost(node));
 	});
 };
+
+Cost.prototype.update = function(prop, value, callback){
+	
+}
+
+Cost.prototype.del = function(callback){
+	
+}
+
+Cost.prototype.createFee = function(data, feeParentId, callback){
+	
+}
